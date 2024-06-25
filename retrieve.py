@@ -44,6 +44,6 @@ if __name__ == "__main__":
     print(queries_df)
 
     run = perform_retrieval(index_ref, queries_df)
-    print(run)
+    print("run generated")
 
 
