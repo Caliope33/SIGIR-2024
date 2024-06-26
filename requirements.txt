@@ -1,0 +1,5 @@
+python-terrier
+pandas
+numpy
+wn
+ir_datasets
