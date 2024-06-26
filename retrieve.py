@@ -2,10 +2,7 @@
 
 import pyterrier as pt
 import pandas as pd
-import re
 import os
-import pytrec_eval
-import pandas as pd
 
 def load_queries(queries_path='./queries.csv'):
     return pd.read_csv(queries_path)
@@ -13,14 +10,21 @@ def load_queries(queries_path='./queries.csv'):
 def perform_retrieval(index_ref, queries_df):
     bm25 = pt.BatchRetrieve(index_ref, wmodel="BM25")
 
-    run = {}
+    initial_run = []
     for _, row in queries_df.iterrows():
         queryid = row['qid']
         querytext = row['query']
         results = bm25.search(querytext)
-        run[queryid] = {res.docno: rank + 1 for rank, res in enumerate(results.itertuples())}
+        for rank, res in enumerate(results.itertuples()):
+            initial_run.append({
+                'qid': queryid,
+                'docno': res.docno,
+                'score': res.score,
+                'rank': rank + 1,
+                'query': querytext
+            })
 
-    return run
+    return pd.DataFrame(initial_run)
 
 if __name__ == "__main__":
     pt.init()  # Initialize PyTerrier
@@ -43,7 +47,11 @@ if __name__ == "__main__":
     queries_df = load_queries(queries_path)
     print(queries_df)
 
-    run = perform_retrieval(index_ref, queries_df)
-    print("run generated")
-
+    # Perform initial retrieval
+    initial_run_df = perform_retrieval(index_ref, queries_df)
+    print("Initial run generated")
+    print(initial_run_df)
+    # Save the initial run results to a file
+    initial_run_df.to_csv('./initial_run.csv', index=False)
+    print("Initial run results saved to './initial_run.csv'")
 
