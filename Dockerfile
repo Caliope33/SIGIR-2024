@@ -12,7 +12,7 @@ ADD requirements.txt /app/requirements.txt
 ADD run.sh /app/run.sh
 
 # Install any needed packages specified in requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r /app/requirements.txt
 
 # Make the run.sh script executable
 RUN chmod +x /app/run.sh
