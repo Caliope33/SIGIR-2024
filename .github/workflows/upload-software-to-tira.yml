@@ -22,5 +22,6 @@ jobs:
           pip3 install docker
       - name: Build, test, and upload image
         run: |
-          docker build -t registry.webis.de/code-research/tira/tira-user-iafa/github-action-submission:0.0.1 -f ${{ github.workspace }}/Dockerfile ${{ github.workspace }}
-          tira-run --tira-client-token ${{ secrets.TIRA_CLIENT_TOKEN }} --input-dataset reneuir-2024/re-rank-spot-check-20240624-training --image registry.webis.de/code-research/tira/tira-user-iafa/github-action-submission:0.0.1 --push true --fail-if-output-is-empty
+          docker build -t registry.webis.de/code-research/tira/tira-user-nexus/github-action-submission:0.0.1 -f ${{ github.workspace }}/Dockerfile ${{ github.workspace }}
+          tira-run --tira-client-token ${{ secrets.TIRA_CLIENT_TOKEN }} --input-dataset reneuir-2024/re-rank-spot-check-20240624-training --image registry.webis.de/code-research/tira/tira-user-nexus/github-action-submission:0.0.1 --push true --fail-if-output-is-empty
+
